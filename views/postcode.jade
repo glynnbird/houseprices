@@ -1,0 +1,49 @@
+doctype html
+html(lang="en")
+head
+  include head.jade
+  script(type="text/javascript")  var trend = !{JSON.stringify(byyear)}; var trend2 = !{JSON.stringify(bypcd)}; 
+  script(type="text/javascript", src="//www.google.com/jsapi")
+  script(src="/js/graph.js")
+
+body
+  include nav.jade
+
+  div.container
+    div.header
+      h1 House price analysis for #{postcode}
+    
+    if bypostcode && bypostcode.length>0    
+      table.table
+        tr
+          th Date
+          th Price
+          th #
+          th Street
+          th Town
+        each address in bypostcode
+          tr
+            td=address.doc.date
+            td=address.doc.price
+            td=address.doc.paon
+            td=address.doc.street
+            td=address.doc.town
+      hr
+          
+    if bypcd.length>1
+      div.row
+        div.col-lg-12
+          h2 Trend #{pcd} vs national average                      
+ 
+      div.row
+        div.col-lg-12
+          div#chart_div2(width="100%")
+          
+      script(type="text/javascript") drawChart();
+    else
+      h3 Cannot find any data for #{pcd}  
+ 
+    div.footer
+      div All data imported from http://data.gov.uk/ and stored in Cloudant.
+
+      

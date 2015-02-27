@@ -1,0 +1,41 @@
+doctype html
+html(lang="en")
+head
+  include head.jade
+  script(src="/js/index.js")
+  
+body
+  a(href="https://github.com/glynnbird/houseprices")
+    img(style="position: absolute; top: 0; right: 0; border: 0;", src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67", alt="Fork me on GitHub", data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png")
+
+  div.container
+    div.header
+      h3.text-muted
+      
+    div.jumbotron
+      
+    
+      div.pull-right
+        span#icon.glyphicon.glyphicon-home(aria-hidden="true")
+        
+      h1 UK House Price Trends
+
+      p.lead Enter your full postcode below and see how house prices in your area compare with the national average
+      form(onsubmit="return submitPostcode()")
+        div.form-group
+          label(for="postcode") Postcode
+          input#postcode.form-control(placeholder="e.g. CT20 1LF")
+        button.btn.btn-default(type="submit") Go
+        
+    div.row
+      div.col-lg-12
+        h2 Where is the data coming from?!
+        p The data was imported from http://data.gov.uk/, the UK Governments Open Data portal. It records many forms of data for free public consumption.
+        p Among them is a CSV file containing every property sale in the UK since 1995, totalling 30m records. This data was imported into a Cloudant database.
+        p MapReduce views have been created across this database to this app to:
+        ul 
+          li Select all of the sales matching the supplied postcode
+          li Calculate the average house-price trend by year, for the whole country
+          li Calculate the house-price trend for the supplied postcode district e.g. EC2, by year
+
+    div.footer
