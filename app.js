@@ -6,8 +6,8 @@ var express = require('express'),
   cloudant = require('./lib/db.js'),
   async = require('async'),
   moment = require('moment'),
-  hp = cloudant.db.use("houseprices");
-
+  hp = cloudant.db.use("houseprices"),
+  cached_national_trend = null;
   
 //setup static public directory
 app.use(express.static(__dirname + '/public')); 
@@ -58,12 +58,18 @@ app.get('/postcode/:pc', function(req, res){
     
     // next the national trend
     function(callback) {
-      var options = {
-        group_level:1
-      };
-      hp.view('fetch','bytime', options, function(err, data) {
-        callback(null,data.rows);
-      });
+      // this data doesn't change very often, so it's best to cache it
+      if(cached_national_trend) {
+        callback(null, cached_national_trend)
+      } else {
+        var options = {
+          group_level:1
+        };
+        hp.view('fetch','bytime', options, function(err, data) {
+          cached_national_trend = data.rows;
+          callback(null,data.rows);
+        });
+      }
     },
     
     // then the trend for this postcode district
