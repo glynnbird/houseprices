@@ -13,3 +13,8 @@ body {
 #icon {
   font-size: 120px;
 }
+
+.headline {
+  font-size:26px;
+  text-align: center;
+}

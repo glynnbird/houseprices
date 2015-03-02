@@ -89,6 +89,7 @@ app.get('/postcode/:pc', function(req, res){
     
     var trend = [ ["Year", "Price"] ];
     var yearmap = { };
+    var pyearmap = { };
     for(var i in data[1]) {
       var v = [ data[1][i].key[0].toString() , data[1][i].value.sum / data[1][i].value.count]
       trend.push(v);
@@ -103,11 +104,24 @@ app.get('/postcode/:pc', function(req, res){
                 data[2][i].value.sum / data[2][i].value.count, // average
                 data[2][i].value.min,
                 yearmap[ year ]]; // min 
-
+      pyearmap[ v[0]] =v[2];
       trend2.push(v);
     }
     
-    res.render('postcode',{ postcode: postcode, pcd:pcd, bypostcode: data[0], byyear: trend, bypcd: trend2})
+    if (yearmap["1995"] && yearmap["2014"]) {
+      var realterms = 0.74;
+      var factor = Math.round(100*pyearmap["2014"]/pyearmap["1995"]);
+      var profit = pyearmap["2014"] - pyearmap["1995"];
+      var profit_real_terms = pyearmap["2014"] - pyearmap["1995"]*(1 + realterms);
+      var stats = {
+        factor: factor,
+        profit: Math.round(profit),
+        profit_real_terms: Math.round(profit_real_terms),
+        num_sales: data[0].length
+      };
+    }
+    
+    res.render('postcode',{ postcode: postcode, pcd:pcd, bypostcode: data[0], byyear: trend, bypcd: trend2, stats: stats})
 
   });
 });

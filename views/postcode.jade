@@ -13,6 +13,16 @@ body
     div.header
       h1 House price analysis for #{postcode}
     
+    
+    if stats 
+      div.row
+        div.col-lg-4 
+          div.alert.alert-success.headline House prices in #{pcd} have risen by #{stats.factor}% since 1995
+        div.col-lg-4 
+          div.alert.alert-info.headline That's a profit of £#{stats.profit}, or £#{stats.profit_real_terms}, in real terms
+        div.col-lg-4 
+          div.alert.alert-warning.headline #{stats.num_sales} houses have sold in #{postcode} in the last 20 years
+    
     if bypostcode && bypostcode.length>0    
       table.table
         tr
