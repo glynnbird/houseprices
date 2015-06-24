@@ -76,10 +76,11 @@ app.get('/postcode/:pc', function(req, res){
     function(callback) {
       var options = {
         startkey:[pcd],
-        endkey:[pcd+"z"],
+        endkey:[pcd+"0"],
         group_level:2
       };
       hp.view('fetch','bypcdandtime', options, function(err, data) {
+        console.log(data.rows);
         callback(null,data.rows);
       });
     }
