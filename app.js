@@ -80,7 +80,6 @@ app.get('/postcode/:pc', function(req, res){
         group_level:2
       };
       hp.view('fetch','bypcdandtime', options, function(err, data) {
-        console.log(data.rows);
         callback(null,data.rows);
       });
     }
