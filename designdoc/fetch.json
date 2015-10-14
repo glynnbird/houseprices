@@ -1,0 +1,18 @@
+{
+    "_id": "_design/fetch",
+    "views": {
+        "bypostcode": {
+            "map": "function (doc) {\n  if(doc.postcode && doc.price) {\n    var p = doc.postcode.replace(/ /,\"\");\n    emit(p, doc.price);\n  }\n}",
+            "reduce": "_stats"
+        },
+        "bytime": {
+            "map": "function (doc) {\n  if (doc.date && doc.price) {\n   var bits = doc.date.split(\" \");\n   var date = bits[0].split(\"-\");\n   emit([parseInt(date[0],10), parseInt(date[1],10), parseInt(date[2],10)], doc.price);\n  }\n}",
+            "reduce": "_stats"
+        },
+        "bypcdandtime": {
+            "map": "function (doc) {\n  if (doc.date && doc.postcode && doc.price) {\n   var bits = doc.date.split(\" \");\n   var date = bits[0].split(\"-\");\n   var postcodebits = doc.postcode.split(\" \");\n   emit([postcodebits[0], parseInt(date[0],10), parseInt(date[1],10), parseInt(date[2],10)], doc.price);\n  }\n}",
+            "reduce": "_stats"
+        }
+    },
+    "language": "javascript"
+}
