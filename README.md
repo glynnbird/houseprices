@@ -192,7 +192,7 @@ as a page of HTML. For a given postcode (e.g. CT20 1LF), we can query our three 
 /houseprices/_design/fetch/_view/bypostcode?key="CT201LF"&include_docs=true&reduce=false
 ```
 
-- `key="CT201LF"`` - return entries from the index only matching the postcode supplied.
+- `key="CT201LF"` - return entries from the index only matching the postcode supplied.
 - `include_docs=true` - return the body of each returned document, not just the 'value' from the index.
 - `reduce=false` - do not reduce the result set into a summary of stats. Even though we specified "_stats" in the Design Document, we can switch of the 'reduce' step at query time
 
